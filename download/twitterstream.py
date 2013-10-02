@@ -11,9 +11,9 @@ access_token_key = "1421319247-XTrjGKTyEZu4h5duCpvT4VnWycdySzmzzgNMutP"
 access_token_secret = "gGZQ7ZJlTpZLyx6q14bssIx9qKhU9Z4e9pVERVMV8"
 
 consumer_key = "NON0gkzkjARUT5nSbHah7A"
-consumer_secret = "UOM1s70nRjOdf91dCvGKospyM0KMiJRLudATTQBmqMs"
+consumer_secret = "UOM1s70nRjOdf91dCvGKospyM0KMiJRLudATTQBmqMs" 
 
-_debug = 0
+_debug = 0  
 
 oauth_token    = oauth.Token(key=access_token_key, secret=access_token_secret)
 oauth_consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
