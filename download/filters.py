@@ -11,19 +11,26 @@ import string
 dictionaryUS = enchant.Dict("en_US");
 
 
-def ifTweetMentionsOneOfMovies(tweet,movieNames,hashtagSet):
+def ifTweetMentionsOneOfMovies(tweet,movieNames,hashtagSet,keywords):
     
     if (ifTweetContainsText(tweet) is False):
         return False;
-    if (ifSentenceIsEnglish(tweet.get("text"))is False):
+    
+    text=tweet.get("text");
+    
+    if (ifSentenceIsEnglish(text)is False):
         return False;
     
     entities=tweet.get("entities");
     
+    
+    if(isTextIsSubset(text, keywords)):
+        return True;
+     
      
     # if there are no entities
-    if (len(entities) is 0):
-        return False;
+#     if (len(entities) is 0):
+#         return False;
     
     #print tweet.get("text");
     
@@ -36,7 +43,7 @@ def ifTweetMentionsOneOfMovies(tweet,movieNames,hashtagSet):
         
         # if at least one of movies is mentioned
         for movie in movieNames:
-            if (screen_name==movie):
+            if (screen_name.lower()==movie.lower()):
                 return True;
         
     # at least one of hashtags is mentioned
@@ -44,7 +51,7 @@ def ifTweetMentionsOneOfMovies(tweet,movieNames,hashtagSet):
         hashtagText=hashtag.get("text");
         
         for ht in hashtagSet:
-            if (ht==hashtagText):
+            if (ht.lower()==hashtagText.lower()):
                 return True;
     
     
@@ -85,6 +92,21 @@ def ifSentenceIsEnglish(sentence):
      
     return True;
     
+    
+def isTextIsSubset(text,keywords):
+    
+    text=text.lower();
+    strArray=text.split();
+    textSet=set(strArray);
+    
+    for key,value in keywords.iteritems():
+        
+        valueSet=set(value);        
+        if (valueSet<=textSet):
+            return True;
+        
+    return False;
+        
     
 def isASCII(character):
     '''
