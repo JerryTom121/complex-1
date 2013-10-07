@@ -13,7 +13,7 @@ class Twitter:
     A class to define connection with the twitter API and start downloading
     tweets etc.
     '''
-    url = "https://stream.twitter.com/1/statuses/sample.json";
+    url = "https://stream.twitter.com/1/statuses/filter.json";
     
     
     def filter(self):
@@ -35,7 +35,7 @@ class Twitter:
         
         counter=0;
         tweets=[];
-        parameters = [];
+        parameters = {'track':"Gravity,MetallicaThroughTheNever,RunnerRunner,ACOD,Parkland,BadMilo,Cloudy2,RUSHMovie, Metallica"};
         response = twitterStream.twitterreq(self.url, "GET", parameters)
         
         keywords={"Cloudy2":{"cloudy","meatballs"},
@@ -57,14 +57,15 @@ class Twitter:
         
         
         startTime=time.time();
+        print "test";
         for line in response:
             tweet=json.loads(line);
             
             currentTime=time.time();
             # if tweet is not empty
-            if (ifTweetMentionsOneOfMovies(tweet,movieSet,hashTagSet,keywords)):
+            if (ifTweetMentionsOneOfMovies(tweet, movieSet, hashTagSet, keywords)):
+                file.write(str(tweet)+"\n");
                 print tweet.get("text");
-                file.write(str(tweet)+"\n");  
                 tweets.append(tweet);
                 counter=counter+1;
                 print "Number of tweets downloaded: "+str(counter);
@@ -75,7 +76,6 @@ class Twitter:
     
     
 twitter=Twitter();
-tweets=twitter.downloadTweet("out1.txt",100000);
-
+tweets=twitter.downloadTweet("out1.txt",10000);
 
 

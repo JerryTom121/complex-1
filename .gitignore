@@ -37,3 +37,6 @@ nosetests.xml
 
 # compiled files
 *.pyc
+
+# text files
+*.txt
