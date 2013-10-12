@@ -8,7 +8,7 @@ import json
 from filters import *;
 import time;
 import datetime;
-from movieInformation import *;
+#from movieInformation import *;
 
 class Twitter:
     '''
