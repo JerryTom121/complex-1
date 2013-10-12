@@ -8,5 +8,6 @@
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 <path>/host/Files/Dropbox/Study/ComplexNetworks/Libraries/oauth/oauth2-1.5.211/oauth2</path>
 <path>/host/Files/Dropbox/Study/ComplexNetworks/Libraries/pyenchant-1.6.5/enchant</path>
+<path>/host/Files/Dropbox/Study/ComplexNetworks/pygexf/dist/pygexf-0.2.2-py2.7.egg</path>
 </pydev_pathproperty>
 </pydev_project>

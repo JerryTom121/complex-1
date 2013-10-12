@@ -7,6 +7,8 @@ import twitterstream as twitterStream;
 import json
 from filters import *;
 import time;
+import datetime;
+from movieInformation import *;
 
 class Twitter:
     '''
@@ -27,7 +29,7 @@ class Twitter:
         self.args=args;
         
         
-    def downloadTweet(self,filename,numOfTweets=10):
+    def downloadTweet(self,filename):
         '''
         Function will download tweets with the number specified by numOfTweets
         '''
@@ -35,29 +37,20 @@ class Twitter:
         
         counter=0;
         tweets=[];
-        parameters = {'track':"Gravity,MetallicaThroughTheNever,RunnerRunner,ACOD,Parkland,BadMilo,Cloudy2,RUSHMovie, Metallica"};
+        parameters = {'track':"CaptainPhillips,Captain Phillips,captain Phillips,Captain phillips, captaion phillips"};
         response = twitterStream.twitterreq(self.url, "GET", parameters)
         
-        keywords={"Cloudy2":{"cloudy","meatballs"},
-              "Runner":{"runner movie"},
-              "Metallica":{"metallica","through","never"},
-              "ACOD":{"a.c.o.d"},
-              "RushMovie":{"rush movie"},
-              "Parkland":{"parkland"},
-              "DonJon":{"donjon","don jon"},
-              "Bad Milo":{"bad milo"}         
+        keywords={"CaptainPhillips":{"Captain","Phillips"}        
               }
         
-        movieSet={"_RunnerRunner","MetallicaMovie","ACODmovie",
-                  "rushthemovie","ParklandFilm","CloudyMovie","DonJon",
-                  "RushMovieUK","ParklandMov","ParklandUK"};
-        hashTagSet={"Gravity","MetallicaThroughTheNever","RunnerRunner",
-                    "ACOD","Parkland","BadMilo","Cloudy2","RUSHMovie"};
-        file = open(filename,'a');
+        movieSet={"CaptainPhillips"};
+        hashTagSet={"CaptainPhillips"};
+        file = open(filename,'a+');
         
-        
+        currentDate=datetime.datetime.now();
+        file.write(str(currentDate)+"\n");
         startTime=time.time();
-        print "test";
+        hours=6;
         for line in response:
             tweet=json.loads(line);
             
@@ -65,17 +58,20 @@ class Twitter:
             # if tweet is not empty
             if (ifTweetMentionsOneOfMovies(tweet, movieSet, hashTagSet, keywords)):
                 file.write(str(tweet)+"\n");
-                print tweet.get("text");
+                #print tweet.get("text");
                 tweets.append(tweet);
                 counter=counter+1;
-                print "Number of tweets downloaded: "+str(counter);
-            if (counter>=numOfTweets):
+                #print "Number of tweets downloaded: "+str(counter);
+            if ((currentTime-startTime)/(60*60*hours)>1):
                 break;
+        file.close();
         return tweets;
     
     
     
 twitter=Twitter();
-tweets=twitter.downloadTweet("out1.txt",10000);
+tweets=twitter.downloadTweet("CaptainPhillips.txt");
+rt=RottenTomatoes("rottenOpenTheaters.txt","rottenBoxOffice.txt");
+d=rt.getInformationInTheaters(); 
 
 
