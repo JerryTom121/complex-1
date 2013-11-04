@@ -4,64 +4,76 @@ Created on Oct 19, 2013
 @author: ivan
 '''
 import re;
-from igraph import *
-import json
 import ast
 import enchant
+from igraph import *
+import igraph
+import json
 import string
+
+
+import nltk;
+
 
 dictionaryUS = enchant.Dict("en_US");
 
-p=re.compile("\d{4}-\d{1,2}-\d{1,2}");
+p = re.compile("\d{4}-\d{1,2}-\d{1,2}");
 
-def findIndex(graph,vertexName):
+def findIndex(graph, vertexName):
     '''
     From Vertex Object get it's ID
     '''
-    result=0;
+    result = 0;
     try:
-        result=graph.vs.find(name=vertexName).index;
+        result = graph.vs.find(name=vertexName).index;
     except:
         pass;
-        result=-1;
+        result = -1;
     return result;
 
 def deletePunctuation(sentence):
     '''
     Function deletes all punctuation from the sentence.
     '''
-    out = sentence.translate(string.maketrans("",""), string.punctuation);
+    out = sentence.translate(string.maketrans("", ""), string.punctuation);
     return out;
 
-def processTweet(graph,words):
+def processTweet(graph, words):
     
+    # for every word in the word list
     for index in range(len(words)):
         
-        word1=words[index];
+        # get the word
+        word1 = words[index];
         
-        word1=re.sub('\W', '', word1);
+        # replace everything non alphabetical-numerical with nothing.
+        word1 = re.sub('\W', '', word1);
+        
         # find vertex ID
-        id1=findIndex(graph, word1);
+        id1 = findIndex(graph, word1);
         
         # if the word is not in the graph, add a new vertex
         if (id1 == -1):
             graph.add_vertex(word1);
-            id1=findIndex(graph, word1);
+            id1 = findIndex(graph, word1);
         
-        index2=index+1;
-        while (index2<len(words)):
-            word2=words[index2];
-            index2=index2+1;
-            word2=re.sub('\W', '', word2);
+        # the index of the next word in the sentence
+        index2 = index + 1;
+        
+        # for all words coming after this one do
+        while (index2 < len(words)):
+            word2 = words[index2];
+            index2 = index2 + 1;
+            word2 = re.sub('\W', '', word2);
             # find vertex ID
-            id2=findIndex(graph, word2);
+            id2 = findIndex(graph, word2);
         
             # if the word is not in the graph, add a new vertex
             if (id2 == -1):
                 graph.add_vertex(word2);
-                id2=findIndex(graph, word2);
+                id2 = findIndex(graph, word2);
             
-            if (word1==word2):
+            if (word1 == word2):
                 continue;
             
 #             eid = graph.get_eid(id1, id2);
@@ -70,19 +82,19 @@ def processTweet(graph,words):
             
             try:
                 eid = graph.get_eid(id1, id2)
-            except InternalError:
+            except:
                 eid = graph.ecount()
                 graph.add_edge(id1, id2, weight=1)
             edge = graph.es[eid];
             edge["weight"] += 1
             
             
-        #return graph;
+        # return graph;
             
             
 
 def ifDate(line):
-    a=p.match(line);
+    a = p.match(line);
     
     if (a is None):
         return False;
@@ -94,30 +106,32 @@ def getDate(line):
     If line contains the date return it.
     '''
     
-    a=p.match(line);
+    a = p.match(line);
     return a.group();
 
 f = open('CaptainPhillips.txt');
 
-graphDate="2013-10-12";
-date="";
-c=0;
+graphDate = "2013-10-12";
+date = "";
+c = 0;
 
 
 # create a graph
 g = Graph(0);
-#g.es["weight"]=0;
+# g.es["weight"]=0;
+
+# for line in the text do
 for line in f:
     
-    if (line =="\n"):
-        print "hello there";
+    c = c + 1;
     
-    c=c+1;
-    isDate=ifDate(line);
+    # check if the line contains the date (special line where the time of the tweets is saved)
+    isDate = ifDate(line);
     if isDate:
-        date=getDate(line);
+        date = getDate(line);
         
-        # only one graph now
+        
+        # only one graph now, if the date changed -> create new graph* (not implemented yet)
         if (graphDate != date):
             break;
     else:
@@ -127,15 +141,21 @@ for line in f:
 #         line=line.group();
 
 
-        a=ast.literal_eval(line);
-        text=a.get("text");
+        #parse string into the dictionary
+        a = ast.literal_eval(line);
         
-        #print text;
-        words=text.split();
-        processTweet(g,words);
-#         summary(g);
-        #print words;
-        a=1;
+        # get tweet text
+        text = a.get("text");
+        
+        # print text;
+        words = text.split();
+        processTweet(g, words);
+        a = 1;
 
-print("Number of tweets: "+str(c));
+def nlpPreProcessing(tweetText):
+    text = nltk.word_tokenize(tweetText);
+
+    posTextTags=nltk.pos_tag(text);
+    
+print("Number of tweets: " + str(c));
 g.write_graphml("10-12.graphml");
