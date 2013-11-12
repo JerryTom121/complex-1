@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse-pydev version="1.0"?><pydev_project>
+<pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
+<pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
+<pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
+<path>/Twitter</path>
+</pydev_pathproperty>
+<pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
+<path>/host/Files/Dropbox/Study/ComplexNetworks/Libraries/oauth/oauth2-1.5.211/oauth2</path>
+<path>/host/Files/Dropbox/Study/ComplexNetworks/Libraries/pyenchant-1.6.5/enchant</path>
+<path>/usr/local/lib</path>
+</pydev_pathproperty>
+</pydev_project>

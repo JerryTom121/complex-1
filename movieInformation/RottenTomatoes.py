@@ -68,4 +68,3 @@ d=rt.getInformationInTheaters();
     
     
     
-    

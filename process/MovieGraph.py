@@ -7,9 +7,10 @@ import re;
 import ast
 import enchant
 from igraph import *
-import igraph
 import json
 import string
+
+from NaturalLanguageProcessing import *;
 
 
 import nltk;
@@ -109,7 +110,7 @@ def getDate(line):
     a = p.match(line);
     return a.group();
 
-f = open('CaptainPhillips.txt');
+f = open('../data/CaptainPhillips.txt');
 
 graphDate = "2013-10-12";
 date = "";
@@ -120,42 +121,60 @@ c = 0;
 g = Graph(0);
 # g.es["weight"]=0;
 
+dateFrom='2013-11-02';
+dateUpTo='2013-11-09';
+
+outFile = open('allWeeksTweetTextForSentimentAnalysis.txt','w')
+#f.write('hi there\n') # python will convert \n to os.linesep
+
+
+
+startGettingTweets=True;
+
 # for line in the text do
 for line in f:
     
-    c = c + 1;
+  
     
     # check if the line contains the date (special line where the time of the tweets is saved)
     isDate = ifDate(line);
     if isDate:
+        
         date = getDate(line);
         
+        if (date==dateUpTo):
+            break;
+        
+        if (dateFrom==date):
+            startGettingTweets=True;
+        #print date;
         
         # only one graph now, if the date changed -> create new graph* (not implemented yet)
-        if (graphDate != date):
-            break;
+#         if (graphDate != date):
+#             break;
     else:
         # do Graph staff here
 #         p1=re.compile("{.*}");
 #         line=p1.match(line);
 #         line=line.group();
 
-
+        if not startGettingTweets:
+            continue;
         #parse string into the dictionary
-        a = ast.literal_eval(line);
-        
+        try:
+            a = ast.literal_eval(line);
+        except SyntaxError:
+            continue;
         # get tweet text
-        text = a.get("text");
-        
+        tweetText = a.get("text");
+        c = c + 1;
         # print text;
-        words = text.split();
+        words = nlpPreProcessing(tweetText);
+        outFile.write(fromListGetString(words));
+        
         processTweet(g, words);
-        a = 1;
 
-def nlpPreProcessing(tweetText):
-    text = nltk.word_tokenize(tweetText);
 
-    posTextTags=nltk.pos_tag(text);
-    
+outFile.close();    
 print("Number of tweets: " + str(c));
-g.write_graphml("10-12.graphml");
+#g.write_graphml("weak4.graphml");

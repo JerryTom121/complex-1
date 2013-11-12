@@ -3,35 +3,38 @@ Created on Oct 9, 2013
 
 @author: ibogun2010
 '''
+
+
 import urllib2
 import urllib
 from pyparsing import *
-import re;
+import re
 from decimal import Decimal
 from re import sub
+
 
 class BoxOfficeMojoParser:
     '''
     Class to get information from RottenTomatoes.com regarding
     how much money the movies got etc.
     '''
-    movieName="";
-    currentDate=[];
-    currentBoxOffice=[];
-    boxOfficeHistory=dict();
+    movieName=""
+    currentDate=[]
+    currentBoxOffice=[]
+    boxOfficeHistory=dict()
     
     
     def __init__(self,movie):
         '''
         Constructor
         '''
-        self.key="22nbwp2b2xszz3pkqcchwd73";
-        self.movieName=movie;
+        self.key="22nbwp2b2xszz3pkqcchwd73"
+        self.movieName=movie
         
     @staticmethod
     def checkIfMoney(str):
         p=re.compile("(.*)\$\d(.*)")
-        a=p.match(str);
+        a=p.match(str)
         
         result=False;
         if a is not None:

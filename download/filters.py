@@ -138,4 +138,3 @@ def deletePunctuation(sentence):
     '''
     out = sentence.translate(string.maketrans("",""), string.punctuation);
     return out;
-
