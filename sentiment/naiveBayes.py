@@ -3,6 +3,11 @@ Created on Nov 11, 2013
 
 @author: ivan
 '''
+import csv;
+
+
+
+
 import nltk.classify.util
 from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import movie_reviews
@@ -23,24 +28,39 @@ trainfeats = negfeats + posfeats;
  
 classifier = NaiveBayesClassifier.train(trainfeats);
 
-f=open('../data/allWeeksTweetTextForSentimentAnalysis.txt','r');
+f=open('../data/sentiment/allWeeksTweetTextForSentimentAnalysis.txt','r');
 
 countPositive=0;
 countNegative=0;
 total=0;
 
-for line in f:
-    total=total+1;
-    feature=word_feats(line.split());
+csvFilename='sentimentProcessed.csv';
+
+with open(csvFilename, 'a') as csvfile:
+    writer = csv.writer(csvfile, delimiter='\t',
+                                quotechar='"', quoting=csv.QUOTE_MINIMAL)
     
-    label=classifier.classify(feature);
-    
-    if label=='pos':
-        countPositive=countPositive+1;
+    for line in f:
+        total=total+1;
+        feature=word_feats(line.split());
         
-    if label=='neg':
-        #print line;
-        countNegative=countNegative+1;
+        label=classifier.classify(feature);
+        
+        if label=='pos':
+            countPositive=countPositive+1;
+            polarity=1;
+            
+        if label=='neg':
+            #print line;
+            countNegative=countNegative+1;
+            polarity=-1;
+            
+        writer.writerow([line]  + [polarity])
+
+
+
+
+
         
 print 'Total number tweets: '+str(total);
 print 'Positive tweets: '+str(countPositive/(total*1.0));

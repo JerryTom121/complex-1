@@ -18,7 +18,7 @@ import nltk;
 
 dictionaryUS = enchant.Dict("en_US");
 
-p = re.compile("\d{4}-\d{1,2}-\d{1,2}");
+
 
 def findIndex(graph, vertexName):
     '''
@@ -95,6 +95,7 @@ def processTweet(graph, words):
             
 
 def ifDate(line):
+    p = re.compile("\d{4}-\d{1,2}-\d{1,2}");
     a = p.match(line);
     
     if (a is None):
@@ -106,6 +107,8 @@ def getDate(line):
     '''
     If line contains the date return it.
     '''
+    
+    p = re.compile("\d{4}-\d{1,2}-\d{1,2}");
     
     a = p.match(line);
     return a.group();
@@ -124,7 +127,7 @@ g = Graph(0);
 dateFrom='2013-11-02';
 dateUpTo='2013-11-09';
 
-outFile = open('allWeeksTweetTextForSentimentAnalysis.txt','w')
+outFile = open('allWeeksTweetTextForSentimentAnalysisWithoutTime.txt','w')
 #f.write('hi there\n') # python will convert \n to os.linesep
 
 
@@ -140,13 +143,17 @@ for line in f:
     isDate = ifDate(line);
     if isDate:
         
-        date = getDate(line);
-        
-        if (date==dateUpTo):
-            break;
-        
-        if (dateFrom==date):
-            startGettingTweets=True;
+        if (getDate(line)!=date):
+            a=1;
+            #outFile.write(getDate(line)+'\n');
+#         
+#         date = getDate(line);
+#         
+#         if (date==dateUpTo):
+#             break;
+#         
+#         if (dateFrom==date):
+#             startGettingTweets=True;
         #print date;
         
         # only one graph now, if the date changed -> create new graph* (not implemented yet)
@@ -158,8 +165,8 @@ for line in f:
 #         line=p1.match(line);
 #         line=line.group();
 
-        if not startGettingTweets:
-            continue;
+#         if not startGettingTweets:
+#             continue;
         #parse string into the dictionary
         try:
             a = ast.literal_eval(line);
@@ -169,10 +176,10 @@ for line in f:
         tweetText = a.get("text");
         c = c + 1;
         # print text;
-        words = nlpPreProcessing(tweetText);
-        outFile.write(fromListGetString(words));
+        #words = nlpPreProcessing(tweetText);
+        outFile.write(tweetText+'\n');
         
-        processTweet(g, words);
+        #processTweet(g, words);
 
 
 outFile.close();    
