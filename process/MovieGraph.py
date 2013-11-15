@@ -176,12 +176,12 @@ for line in f:
         tweetText = a.get("text");
         c = c + 1;
         # print text;
-        #words = nlpPreProcessing(tweetText);
-        outFile.write(tweetText+'\n');
+        words = nlpPreProcessing(tweetText);
+        #outFile.write(tweetText+'\n');
         
-        #processTweet(g, words);
+        processTweet(g, words);
 
 
 outFile.close();    
 print("Number of tweets: " + str(c));
-#g.write_graphml("weak4.graphml");
+g.write_graphml("complete.graphml");

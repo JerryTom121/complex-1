@@ -25,7 +25,7 @@ allNegfeats=len(negfeats);
  
 trainfeats = negfeats + posfeats;
 #print 'train on %d instances, test on %d instances' % (len(trainfeats), len(testfeats))
- 
+
 classifier = NaiveBayesClassifier.train(trainfeats);
 
 f=open('../data/sentiment/allWeeksTweetTextForSentimentAnalysis.txt','r');
