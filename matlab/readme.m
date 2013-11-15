@@ -1,0 +1,18 @@
+%cell array is in the format:
+%
+%ID                         (1)  
+%Label                      (2) 
+%name                       (3)  
+%Degree                     (4)  
+%WeighedDegree              (5)
+%Eccentricity               (6) 
+%Closeness                  (7) 
+% Betweenness               (8)    
+% Authority                 (9)   
+% Hub                       (10)
+%Modularity                 (11) 
+% PageRank                  (12)  
+% Component                 (13)  
+% ClusteringCoefficient     (14)
+%NumberOfTriangles          (15)  
+%EigenVectorCentrality      (16)
