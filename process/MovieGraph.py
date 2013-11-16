@@ -127,7 +127,7 @@ g = Graph(0);
 dateFrom='2013-11-02';
 dateUpTo='2013-11-09';
 
-outFile = open('allWeeksTweetTextForSentimentAnalysisWithoutTime.txt','w')
+outFile = open('allWeeksTweetTextForSentimentAnalysisWithTime.txt','w')
 #f.write('hi there\n') # python will convert \n to os.linesep
 
 
