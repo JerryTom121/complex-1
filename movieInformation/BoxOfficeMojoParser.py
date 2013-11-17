@@ -147,7 +147,7 @@ class BoxOfficeMojoParser:
                 # add all results to the dictionary
 
                 #print money;
-movie="prisoners";
+movie="captainphillips";
 rt=BoxOfficeMojoParser(movie);
 rt.getBoxOffice();
 boxOffice=rt.boxOfficeHistory;
@@ -155,3 +155,7 @@ cd=rt.currentDate;
 cbo=rt.currentBoxOffice;
 print cd;
 print cbo;
+print boxOffice;
+
+for key,item in boxOffice.iteritems():
+    print key+'\t'+ str(item[0]);
