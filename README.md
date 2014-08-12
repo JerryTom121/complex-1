@@ -1,1 +1,1 @@
-To be written
+Code supporting the project "Twitter sentiment analysis".
